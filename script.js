@@ -3,20 +3,32 @@ function Book(title, author, pages, read){
     this. author = author;
     this.pages = pages;
     this.read = read;
-    let readStat = "";
-    if (read == "yes") readStat = "already read";
-    if (read == "no") readStat = "not read yet";
+    // let readStat = "";
+    // if (read) readStat = "already read";
+    // if (!read) readStat = "not read yet";
     this.info = function(){
-        return this.title + " by " + this.author + ", " + this.pages + " pages, " + readStat;
+    //return this.title + " by " + this.author + ", " + this.pages + " pages, " + readStat;
     }
 }
+var title="";
+var author;
+var pages;
+var read;
+var library = [];
+const container = document.querySelector("#books");
 
-
-function render(){
-    
+function input(){
+    title = document.querySelector("#title").value;
+    author = document.querySelector("#author").value;
+    pages = document.querySelector("#pages").value;
+    read = document.querySelector("#read").checked;
+    library.push(new Book(title,author,pages,read));
+    console.table(library);
 }
 
-// const hobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
 
-// const foundation = new Book("Foundation", "Isaac Asimov", 300, "yes");
-// console.log (foundation.info());
+
+const btn = document.querySelector('#btn');
+btn.addEventListener('click', function(e) {
+    input();
+})
