@@ -24,9 +24,25 @@ function input(){
     read = document.querySelector("#read").checked;
     library.push(new Book(title,author,pages,read));
     console.table(library);
+    render();
 }
 
-
+function render(){
+    var titleP = document.createElement("p");
+    titleP.innerHTML = library[library.length-1].title;
+    var authorP = document.createElement("p");
+    authorP.innerHTML = library[library.length-1].author;
+    var pagesP = document.createElement("p");
+    pagesP.innerHTML = library[library.length-1].pages;
+    var bookDiv = document.createElement("div");
+    var readP = document.createElement("p");
+    library[library.length-1].read ? readP.innerHTML = "Read" : readP.innerHTML = "Not Read";
+    bookDiv.appendChild(titleP);
+    bookDiv.appendChild(authorP);
+    bookDiv.appendChild(pagesP);
+    bookDiv.appendChild(readP);
+    container.appendChild(bookDiv);
+}
 
 const btn = document.querySelector('#btn');
 btn.addEventListener('click', function(e) {
