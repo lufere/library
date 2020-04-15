@@ -19,7 +19,7 @@ function input(){
     pages = document.querySelector("#pages").value;
     read = document.querySelector("#read").checked;
     library.push(new Book(title,author,pages,read));
-    console.table(library);
+    //console.table(library);
     render();
 }
 
@@ -37,6 +37,7 @@ function render(){
     delBtn.classList.add("delBtn");
     delBtn.innerHTML = "DELETE";
     bookDiv.classList.add("aBook");
+    readP.classList.add("readBtn");
     library[library.length-1].read ? readP.innerHTML = "Read" : readP.innerHTML = "Not Read";
     bookDiv.appendChild(titleP);
     bookDiv.appendChild(authorP);
@@ -45,6 +46,7 @@ function render(){
     bookDiv.appendChild(delBtn);
     container.appendChild(bookDiv);
     deleteButton();
+    readButton(library.length-1);
 }
 
 const btn = document.querySelector('#btn');
@@ -54,10 +56,38 @@ btn.addEventListener('click', function(e) {
 
 function deleteButton(){
     document.querySelectorAll(".delBtn").forEach(function(e){
-        e.addEventListener('click',function(_e){
+        e.addEventListener('click',function(e){
             var parentDiv = this.parentElement;
-            //alert (parentDiv.dataset.index);
+            var index = parentDiv.dataset.index;
+            delete library[index];
             parentDiv.remove();
+            //console.table(library);
         })
     })
+}
+
+// function readButton(){
+//     document.querySelectorAll(".readBtn").forEach(function(e){
+//         e.addEventListener("click",function(e){
+//             var parentDiv = this.parentElement;
+//             var index = parentDiv.dataset.index;
+//             var currentBook = library[index];
+//             currentBook.read = !currentBook.read;
+//             console.table(library);
+//             currentBook.read? this.innerHTML = "Read" : this.innerHTML = "Not Read";
+//             //alert(currentBook.read);
+//         })
+//     })
+// }
+
+function readButton(num){
+    document.querySelectorAll(".readBtn")[num].addEventListener("click",function(e){
+            var parentDiv = this.parentElement;
+            var index = parentDiv.dataset.index;
+            var currentBook = library[index];
+            currentBook.read = !currentBook.read;
+            console.table(library);
+            currentBook.read? this.innerHTML = "Read" : this.innerHTML = "Not Read";
+            //alert(currentBook.read);
+        })
 }
