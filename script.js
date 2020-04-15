@@ -3,11 +3,7 @@ function Book(title, author, pages, read){
     this. author = author;
     this.pages = pages;
     this.read = read;
-    // let readStat = "";
-    // if (read) readStat = "already read";
-    // if (!read) readStat = "not read yet";
     this.info = function(){
-    //return this.title + " by " + this.author + ", " + this.pages + " pages, " + readStat;
     }
 }
 var title="";
@@ -34,17 +30,34 @@ function render(){
     authorP.innerHTML = library[library.length-1].author;
     var pagesP = document.createElement("p");
     pagesP.innerHTML = library[library.length-1].pages;
-    var bookDiv = document.createElement("div");
     var readP = document.createElement("p");
+    var bookDiv = document.createElement("div");
+    bookDiv.setAttribute("data-index",library.length-1);
+    var delBtn = document.createElement("button");
+    delBtn.classList.add("delBtn");
+    delBtn.innerHTML = "DELETE";
+    bookDiv.classList.add("aBook");
     library[library.length-1].read ? readP.innerHTML = "Read" : readP.innerHTML = "Not Read";
     bookDiv.appendChild(titleP);
     bookDiv.appendChild(authorP);
     bookDiv.appendChild(pagesP);
     bookDiv.appendChild(readP);
+    bookDiv.appendChild(delBtn);
     container.appendChild(bookDiv);
+    deleteButton();
 }
 
 const btn = document.querySelector('#btn');
 btn.addEventListener('click', function(e) {
     input();
 })
+
+function deleteButton(){
+    document.querySelectorAll(".delBtn").forEach(function(e){
+        e.addEventListener('click',function(_e){
+            var parentDiv = this.parentElement;
+            //alert (parentDiv.dataset.index);
+            parentDiv.remove();
+        })
+    })
+}
