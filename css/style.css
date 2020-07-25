@@ -17,6 +17,12 @@
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
+    border: solid 1px blue;
+}
+
+#reactTest{
+    height: 500px;
+    border: solid 1px red;
 }
 
 .aBook{
