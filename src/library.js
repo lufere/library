@@ -1,5 +1,17 @@
 'use strict';
 
+function Book(props){
+    return(
+        <div className="aBook">
+            <p>{props.book.title}</p>
+            <p>{props.book.author}</p>
+            <p>{props.book.pages}</p>
+            <p className="readBtn">{props.book.read}</p>
+            <button className="delBtn">DELETE</button>
+        </div>
+    );
+}
+
 class ClickButton extends React.Component {
   constructor(props) {
     super(props);
@@ -19,5 +31,7 @@ class ClickButton extends React.Component {
   }
 }
 
+var foundation = {title:"Foundation", author:"Isaac Asimov", pages:244}
+
 let domContainer = document.querySelector('#reactTest');
-ReactDOM.render(<ClickButton />, domContainer);
+ReactDOM.render(<Book book ={foundation}/>, domContainer);

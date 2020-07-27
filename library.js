@@ -8,6 +8,38 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function Book(props) {
+  return React.createElement(
+    "div",
+    { className: "aBook" },
+    React.createElement(
+      "p",
+      null,
+      props.book.title
+    ),
+    React.createElement(
+      "p",
+      null,
+      props.book.author
+    ),
+    React.createElement(
+      "p",
+      null,
+      props.book.pages
+    ),
+    React.createElement(
+      "p",
+      { className: "readBtn" },
+      props.book.read
+    ),
+    React.createElement(
+      "button",
+      { className: "delBtn" },
+      "DELETE"
+    )
+  );
+}
+
 var ClickButton = function (_React$Component) {
   _inherits(ClickButton, _React$Component);
 
@@ -21,7 +53,7 @@ var ClickButton = function (_React$Component) {
   }
 
   _createClass(ClickButton, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
@@ -30,11 +62,11 @@ var ClickButton = function (_React$Component) {
       }
 
       return React.createElement(
-        'button',
+        "button",
         { onClick: function onClick() {
             return _this2.setState({ clicked: true });
           } },
-        'Click meeee'
+        "Click meeee"
       );
     }
   }]);
@@ -42,5 +74,7 @@ var ClickButton = function (_React$Component) {
   return ClickButton;
 }(React.Component);
 
+var foundation = { title: "Foundation", author: "Isaac Asimov", pages: 244 };
+
 var domContainer = document.querySelector('#reactTest');
-ReactDOM.render(React.createElement(ClickButton, null), domContainer);
+ReactDOM.render(React.createElement(Book, { book: foundation }), domContainer);
