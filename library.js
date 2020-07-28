@@ -14,7 +14,6 @@ var Book = function (_React$Component) {
     function Book(props) {
         _classCallCheck(this, Book);
 
-        // const {title, author, pages} = this.props;
         var _this = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
         _this.state = { clickDel: false };
@@ -33,6 +32,8 @@ var Book = function (_React$Component) {
 
             var read = void 0;
             this.props.book.read ? read = "READ" : read = 'NOT READ';
+
+            if (this.state.clickDel) return null;
 
             return React.createElement(
                 'div',
@@ -70,99 +71,33 @@ var Book = function (_React$Component) {
     return Book;
 }(React.Component);
 
-// function Book(props){
-//     return(
-//         <div className="aBook">
-//             <p>{props.book.title}</p>
-//             <p>{props.book.author}</p>
-//             <p>{props.book.pages}</p>
-//             <p className="readBtn">{props.book.read}</p>
-//             {/* <button className="delBtn">DELETE</button> */}
-//             <DeleteBtn/>
-//         </div>
-//     );
-// }
-
-var DeleteBtn = function (_React$Component2) {
-    _inherits(DeleteBtn, _React$Component2);
-
-    function DeleteBtn(props) {
-        _classCallCheck(this, DeleteBtn);
-
-        var _this3 = _possibleConstructorReturn(this, (DeleteBtn.__proto__ || Object.getPrototypeOf(DeleteBtn)).call(this, props));
-
-        _this3.state = { clicked: false };
-        return _this3;
+function DeleteBtn(props) {
+    if (props.value) {
+        return 'Works';
     }
-
-    _createClass(DeleteBtn, [{
-        key: 'render',
-        value: function render() {
-            var _this4 = this;
-
-            if (this.props.value) {
-                return 'Works';
+    return React.createElement(
+        'button',
+        {
+            className: 'delBtn',
+            onClick: function onClick() {
+                return props.onClick();
             }
-
-            return React.createElement(
-                'button',
-                {
-                    className: 'delBtn',
-                    onClick: function onClick() {
-                        return _this4.props.onClick();
-                    }
-                },
-                'DELETE'
-            );
-        }
-    }]);
-
-    return DeleteBtn;
-}(React.Component);
+        },
+        'DELETE'
+    );
+}
 
 function BookContainer(props) {
     return React.createElement(
         'div',
         { className: 'books' },
-        React.createElement(Book, { book: foundation })
+        React.createElement(Book, { book: foundation }),
+        React.createElement(Book, { book: foundation2 })
     );
 }
 
-var ClickButton = function (_React$Component3) {
-    _inherits(ClickButton, _React$Component3);
-
-    function ClickButton(props) {
-        _classCallCheck(this, ClickButton);
-
-        var _this5 = _possibleConstructorReturn(this, (ClickButton.__proto__ || Object.getPrototypeOf(ClickButton)).call(this, props));
-
-        _this5.state = { clicked: false };
-        return _this5;
-    }
-
-    _createClass(ClickButton, [{
-        key: 'render',
-        value: function render() {
-            var _this6 = this;
-
-            if (this.state.clicked) {
-                return 'You clicked this.';
-            }
-
-            return React.createElement(
-                'button',
-                { onClick: function onClick() {
-                        return _this6.setState({ clicked: true });
-                    } },
-                'Click meeee'
-            );
-        }
-    }]);
-
-    return ClickButton;
-}(React.Component);
-
 var foundation = { title: "Foundation", author: "Isaac Asimov", pages: 244, read: true };
+var foundation2 = { title: "Foundation and Empire", author: "Isaac Asimov", pages: 256, read: true };
 
 var domContainer = document.querySelector('#reactTest');
 ReactDOM.render(React.createElement(BookContainer, null), domContainer);

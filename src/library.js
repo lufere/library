@@ -2,7 +2,6 @@
 class Book extends React.Component {
     constructor(props){
         super(props);
-        // const {title, author, pages} = this.props;
         this.state = {clickDel: false}
     }
 
@@ -13,6 +12,8 @@ class Book extends React.Component {
     render(){
         let read;
         this.props.book.read? read = "READ": read = 'NOT READ';
+
+        if (this.state.clickDel) return (null);
 
         return(
             <div className="aBook">
@@ -30,69 +31,33 @@ class Book extends React.Component {
     }
 }
 
-// function Book(props){
-//     return(
-//         <div className="aBook">
-//             <p>{props.book.title}</p>
-//             <p>{props.book.author}</p>
-//             <p>{props.book.pages}</p>
-//             <p className="readBtn">{props.book.read}</p>
-//             {/* <button className="delBtn">DELETE</button> */}
-//             <DeleteBtn/>
-//         </div>
-//     );
-// }
-
-class DeleteBtn extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { clicked: false };
-      }
-    render(){
-        if(this.props.value){
-            return 'Works'
-        }
-
-        return(
-            <button
-                className="delBtn"
-                onClick={()=>this.props.onClick()}
-            >
-                DELETE
-            </button>
-        );
+function DeleteBtn(props){
+    if(props.value){
+        return 'Works'
     }
+    return(
+        <button
+            className="delBtn"
+            onClick={()=>props.onClick()}
+        >
+            DELETE
+        </button>
+    );
 }
+
 
 function BookContainer(props){
     return(
         <div className="books">
             <Book book={foundation}/>
-            
+            <Book book={foundation2}/>
         </div>
     );
 }
 
-class ClickButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { clicked: false };
-  }
+var foundation = {title:"Foundation", author:"Isaac Asimov", pages:244, read: true};
+var foundation2 = {title:"Foundation and Empire", author:"Isaac Asimov", pages:256, read: true};
 
-  render() {
-    if (this.state.clicked) {
-      return 'You clicked this.';
-    }
-
-    return (
-      <button onClick={() => this.setState({ clicked: true }) }>
-        Click meeee
-      </button>
-    );
-  }
-}
-
-var foundation = {title:"Foundation", author:"Isaac Asimov", pages:244, read: true}
 
 let domContainer = document.querySelector('#reactTest');
 ReactDOM.render(<BookContainer/>, domContainer);
