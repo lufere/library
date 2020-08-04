@@ -16,35 +16,20 @@ var Library = function (_React$Component) {
     function Library(props) {
         _classCallCheck(this, Library);
 
-        return _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
-    }
+        var _this = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
 
-    return Library;
-}(React.Component);
-
-// function BookInput(props){
-
-
-var BookInput = function (_React$Component2) {
-    _inherits(BookInput, _React$Component2);
-
-    function BookInput(props) {
-        _classCallCheck(this, BookInput);
-
-        var _this2 = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
-
-        _this2.state = {
+        _this.state = {
             title: "",
             author: "",
             pages: "",
             read: false
         };
-        _this2.handleChange = _this2.handleChange.bind(_this2);
-        _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-        return _this2;
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
 
-    _createClass(BookInput, [{
+    _createClass(Library, [{
         key: "handleChange",
         value: function handleChange(event) {
             var target = event.target;
@@ -62,6 +47,54 @@ var BookInput = function (_React$Component2) {
     }, {
         key: "render",
         value: function render() {
+            var values = {
+                title: this.state.title,
+                author: this.state.author,
+                pages: this.state.pages,
+                read: this.state.read
+            };
+            return React.createElement(
+                "div",
+                null,
+                React.createElement(BookInput, Object.assign({
+                    onInputChange: this.handleChange,
+                    onFormSubmit: this.handleSubmit
+                }, values)),
+                React.createElement(BookContainer, null)
+            );
+        }
+    }]);
+
+    return Library;
+}(React.Component);
+
+var BookInput = function (_React$Component2) {
+    _inherits(BookInput, _React$Component2);
+
+    function BookInput(props) {
+        _classCallCheck(this, BookInput);
+
+        var _this2 = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
+
+        _this2.handleChange = _this2.handleChange.bind(_this2);
+        _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
+        return _this2;
+    }
+
+    _createClass(BookInput, [{
+        key: "handleChange",
+        value: function handleChange(event) {
+            this.props.onInputChange(event);
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(event) {
+            this.props.onFormSubmit(event);
+            event.preventDefault();
+        }
+    }, {
+        key: "render",
+        value: function render() {
             return React.createElement(
                 "form",
                 { id: "inputs" },
@@ -73,7 +106,7 @@ var BookInput = function (_React$Component2) {
                         name: "title",
                         type: "text",
                         id: "title",
-                        value: this.state.title,
+                        value: this.props.title,
                         onChange: this.handleChange
                     })
                 ),
@@ -84,7 +117,7 @@ var BookInput = function (_React$Component2) {
                     React.createElement("input", { name: "author",
                         type: "text",
                         id: "author",
-                        value: this.state.author,
+                        value: this.props.author,
                         onChange: this.handleChange
                     })
                 ),
@@ -95,7 +128,7 @@ var BookInput = function (_React$Component2) {
                     React.createElement("input", { name: "pages",
                         type: "text",
                         id: "pages",
-                        value: this.state.pages,
+                        value: this.props.pages,
                         onChange: this.handleChange
                     })
                 ),
@@ -107,7 +140,7 @@ var BookInput = function (_React$Component2) {
                         name: "read",
                         type: "checkbox",
                         id: "read",
-                        checked: this.state.read,
+                        checked: this.props.read,
                         onChange: this.handleChange
                     })
                 ),
@@ -207,14 +240,11 @@ function DeleteBtn(props) {
 }
 
 function BookContainer(props) {
-    return React.createElement(
-        "div",
-        null,
-        React.createElement(
-            "div",
-            null,
-            React.createElement(BookInput, null)
-        ),
+    return (
+        // <div>
+        //     <div>
+        //         <BookInput/>
+        //     </div>
         React.createElement(
             "div",
             { className: "books" },
@@ -228,4 +258,4 @@ var foundation = { title: "Foundation", author: "Isaac Asimov", pages: 244, read
 var foundation2 = { title: "Foundation and Empire", author: "Isaac Asimov", pages: 256, read: true };
 
 var domContainer = document.querySelector('#reactTest');
-ReactDOM.render(React.createElement(BookContainer, null), domContainer);
+ReactDOM.render(React.createElement(Library, null), domContainer);

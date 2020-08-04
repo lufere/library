@@ -3,13 +3,6 @@
 class Library extends React.Component{
     constructor(props){
         super(props);
-    }
-}
-
-// function BookInput(props){
-class BookInput extends React.Component{
-    constructor(props){
-        super(props);
         this.state = {
             title: "",
             author: "",
@@ -19,6 +12,7 @@ class BookInput extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleChange(event){
         const target = event.target;
         const value = target.name === "read"? target.checked: target.value;
@@ -40,6 +34,42 @@ class BookInput extends React.Component{
     }
 
     render(){
+        const values = {
+            title: this.state.title,
+            author: this.state.author,
+            pages: this.state.pages,
+            read: this.state.read
+        }
+        return(
+            <div>
+                <BookInput
+                    onInputChange ={this.handleChange}
+                    onFormSubmit={this.handleSubmit}
+                    {...values}
+                />
+                <BookContainer/>
+            </div>
+        );
+    }
+}
+
+class BookInput extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event){
+        this.props.onInputChange(event);
+    }
+
+    handleSubmit(event){
+        this.props.onFormSubmit(event);
+        event.preventDefault();
+    }
+
+    render(){
         return(
             <form id="inputs">
                 <label>
@@ -48,7 +78,7 @@ class BookInput extends React.Component{
                     name="title" 
                     type="text" 
                     id="title" 
-                    value={this.state.title}
+                    value={this.props.title}
                     onChange={this.handleChange}
                     />
                 </label>
@@ -57,7 +87,7 @@ class BookInput extends React.Component{
                     <input name="author" 
                     type="text" 
                     id="author" 
-                    value={this.state.author}
+                    value={this.props.author}
                     onChange={this.handleChange}    
                     />
                 </label>
@@ -66,7 +96,7 @@ class BookInput extends React.Component{
                     <input name="pages" 
                     type="text" 
                     id="pages" 
-                    value={this.state.pages}
+                    value={this.props.pages}
                     onChange={this.handleChange}
                     />
                 </label>
@@ -76,7 +106,7 @@ class BookInput extends React.Component{
                     name="read" 
                     type="checkbox" 
                     id="read"
-                    checked={this.state.read}
+                    checked={this.props.read}
                     onChange={this.handleChange}
                     />
                 </label>
@@ -141,15 +171,14 @@ function DeleteBtn(props){
 
 function BookContainer(props){
     return(
-        <div>
-            <div>
-                <BookInput/>
-            </div>
+        // <div>
+        //     <div>
+        //         <BookInput/>
+        //     </div>
             <div className="books">
                 <Book book={foundation}/>
                 <Book book={foundation2}/>
             </div>
-        </div>
     );
 }
 
@@ -159,4 +188,4 @@ var foundation2 = {title:"Foundation and Empire", author:"Isaac Asimov", pages:2
 
 
 let domContainer = document.querySelector('#reactTest');
-ReactDOM.render(<BookContainer/>, domContainer);
+ReactDOM.render(<Library/>, domContainer);
