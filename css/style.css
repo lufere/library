@@ -2,6 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
+}
+#inputs>label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #inputs input, #inputs h2{

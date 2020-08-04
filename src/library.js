@@ -1,4 +1,97 @@
 'use strict';
+
+class Library extends React.Component{
+    constructor(props){
+        super(props);
+    }
+}
+
+// function BookInput(props){
+class BookInput extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            title: "",
+            author: "",
+            pages: "",
+            read: false
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleChange(event){
+        const target = event.target;
+        const value = target.name === "read"? target.checked: target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event){
+        console.log(
+            this.state.title,
+            this.state.author,
+            this.state.pages,
+            this.state.read
+        );
+        event.preventDefault();
+    }
+
+    render(){
+        return(
+            <form id="inputs">
+                <label>
+                    Title:
+                    <input 
+                    name="title" 
+                    type="text" 
+                    id="title" 
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <label>
+                    Author:
+                    <input name="author" 
+                    type="text" 
+                    id="author" 
+                    value={this.state.author}
+                    onChange={this.handleChange}    
+                    />
+                </label>
+                <label>
+                    Pages:
+                    <input name="pages" 
+                    type="text" 
+                    id="pages" 
+                    value={this.state.pages}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <label>
+                    Read?
+                    <input 
+                    name="read" 
+                    type="checkbox" 
+                    id="read"
+                    checked={this.state.read}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <button 
+                type="button" 
+                id = "btn"
+                onClick={this.handleSubmit}
+                >
+                    Add Book
+                </button>
+            </form>
+        );
+    }
+}
+
 class Book extends React.Component {
     constructor(props){
         super(props);
@@ -48,12 +141,18 @@ function DeleteBtn(props){
 
 function BookContainer(props){
     return(
-        <div className="books">
-            <Book book={foundation}/>
-            <Book book={foundation2}/>
+        <div>
+            <div>
+                <BookInput/>
+            </div>
+            <div className="books">
+                <Book book={foundation}/>
+                <Book book={foundation2}/>
+            </div>
         </div>
     );
 }
+
 
 var foundation = {title:"Foundation", author:"Isaac Asimov", pages:244, read: true};
 var foundation2 = {title:"Foundation and Empire", author:"Isaac Asimov", pages:256, read: true};
