@@ -4,10 +4,11 @@ class Library extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            title: "",
-            author: "",
-            pages: "",
-            read: false
+            title: "Test Book",
+            author: "Test Author",
+            pages: "123",
+            read: false,
+            books:[]
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,12 +25,23 @@ class Library extends React.Component{
     }
 
     handleSubmit(event){
-        console.log(
-            this.state.title,
-            this.state.author,
-            this.state.pages,
-            this.state.read
-        );
+        const newBooks = this.state.books;
+        this.setState({
+            books: newBooks.concat([{
+                title:this.state.title,
+                author:this.state.author,
+                pages:this.state.pages
+            }])
+        }, () => {
+            console.table(this.state.books);
+        });
+        // debugger
+        // console.log(
+        //     this.state.title,
+        //     this.state.author,
+        //     this.state.pages,
+        //     this.state.read
+        // );
         event.preventDefault();
     }
 

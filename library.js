@@ -19,10 +19,11 @@ var Library = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
 
         _this.state = {
-            title: "",
-            author: "",
-            pages: "",
-            read: false
+            title: "Test Book",
+            author: "Test Author",
+            pages: "123",
+            read: false,
+            books: []
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -41,7 +42,25 @@ var Library = function (_React$Component) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
-            console.log(this.state.title, this.state.author, this.state.pages, this.state.read);
+            var _this2 = this;
+
+            var newBooks = this.state.books;
+            this.setState({
+                books: newBooks.concat([{
+                    title: this.state.title,
+                    author: this.state.author,
+                    pages: this.state.pages
+                }])
+            }, function () {
+                console.table(_this2.state.books);
+            });
+            // debugger
+            // console.log(
+            //     this.state.title,
+            //     this.state.author,
+            //     this.state.pages,
+            //     this.state.read
+            // );
             event.preventDefault();
         }
     }, {
@@ -74,11 +93,11 @@ var BookInput = function (_React$Component2) {
     function BookInput(props) {
         _classCallCheck(this, BookInput);
 
-        var _this2 = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
 
-        _this2.handleChange = _this2.handleChange.bind(_this2);
-        _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-        return _this2;
+        _this3.handleChange = _this3.handleChange.bind(_this3);
+        _this3.handleSubmit = _this3.handleSubmit.bind(_this3);
+        return _this3;
     }
 
     _createClass(BookInput, [{
@@ -166,10 +185,10 @@ var Book = function (_React$Component3) {
     function Book(props) {
         _classCallCheck(this, Book);
 
-        var _this3 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
-        _this3.state = { clickDel: false };
-        return _this3;
+        _this4.state = { clickDel: false };
+        return _this4;
     }
 
     _createClass(Book, [{
@@ -180,7 +199,7 @@ var Book = function (_React$Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var read = void 0;
             this.props.book.read ? read = "READ" : read = 'NOT READ';
@@ -212,7 +231,7 @@ var Book = function (_React$Component3) {
                 ),
                 React.createElement(DeleteBtn, {
                     onClick: function onClick() {
-                        return _this4.handleClick();
+                        return _this5.handleClick();
                     },
                     value: this.state.clickDel
                 })
