@@ -8,7 +8,7 @@ class Library extends React.Component{
             author: "Test Author",
             pages: "123",
             read: false,
-            books:[]
+            books:[{title:"Foundation", author:"Isaac Asimov", pages:244, read:true},{title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true}]
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,18 +30,16 @@ class Library extends React.Component{
             books: newBooks.concat([{
                 title:this.state.title,
                 author:this.state.author,
-                pages:this.state.pages
-            }])
+                pages:this.state.pages,
+                read:this.state.read
+            }]),
+            title:"",
+            author:"",
+            pages:"",
+            read:""
         }, () => {
             console.table(this.state.books);
         });
-        // debugger
-        // console.log(
-        //     this.state.title,
-        //     this.state.author,
-        //     this.state.pages,
-        //     this.state.read
-        // );
         event.preventDefault();
     }
 
@@ -59,7 +57,9 @@ class Library extends React.Component{
                     onFormSubmit={this.handleSubmit}
                     {...values}
                 />
-                <BookContainer/>
+                <BookContainer
+                    books = {this.state.books}
+                />
             </div>
         );
     }
@@ -182,22 +182,13 @@ function DeleteBtn(props){
 
 
 function BookContainer(props){
+    const books = props.books;
     return(
-        // <div>
-        //     <div>
-        //         <BookInput/>
-        //     </div>
-            <div className="books">
-                <Book book={foundation}/>
-                <Book book={foundation2}/>
-            </div>
+        <div className="books">
+            {books.map(book => <Book key={book.title} book={book} /> )}
+        </div>
     );
 }
-
-
-var foundation = {title:"Foundation", author:"Isaac Asimov", pages:244, read: true};
-var foundation2 = {title:"Foundation and Empire", author:"Isaac Asimov", pages:256, read: true};
-
 
 let domContainer = document.querySelector('#reactTest');
 ReactDOM.render(<Library/>, domContainer);

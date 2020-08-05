@@ -23,7 +23,7 @@ var Library = function (_React$Component) {
             author: "Test Author",
             pages: "123",
             read: false,
-            books: []
+            books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true }]
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -49,18 +49,16 @@ var Library = function (_React$Component) {
                 books: newBooks.concat([{
                     title: this.state.title,
                     author: this.state.author,
-                    pages: this.state.pages
-                }])
+                    pages: this.state.pages,
+                    read: this.state.read
+                }]),
+                title: "",
+                author: "",
+                pages: "",
+                read: ""
             }, function () {
                 console.table(_this2.state.books);
             });
-            // debugger
-            // console.log(
-            //     this.state.title,
-            //     this.state.author,
-            //     this.state.pages,
-            //     this.state.read
-            // );
             event.preventDefault();
         }
     }, {
@@ -79,7 +77,9 @@ var Library = function (_React$Component) {
                     onInputChange: this.handleChange,
                     onFormSubmit: this.handleSubmit
                 }, values)),
-                React.createElement(BookContainer, null)
+                React.createElement(BookContainer, {
+                    books: this.state.books
+                })
             );
         }
     }]);
@@ -259,22 +259,15 @@ function DeleteBtn(props) {
 }
 
 function BookContainer(props) {
-    return (
-        // <div>
-        //     <div>
-        //         <BookInput/>
-        //     </div>
-        React.createElement(
-            "div",
-            { className: "books" },
-            React.createElement(Book, { book: foundation }),
-            React.createElement(Book, { book: foundation2 })
-        )
+    var books = props.books;
+    return React.createElement(
+        "div",
+        { className: "books" },
+        books.map(function (book) {
+            return React.createElement(Book, { key: book.title, book: book });
+        })
     );
 }
-
-var foundation = { title: "Foundation", author: "Isaac Asimov", pages: 244, read: true };
-var foundation2 = { title: "Foundation and Empire", author: "Isaac Asimov", pages: 256, read: true };
 
 var domContainer = document.querySelector('#reactTest');
 ReactDOM.render(React.createElement(Library, null), domContainer);
