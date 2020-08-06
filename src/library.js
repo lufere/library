@@ -1,64 +1,32 @@
 'use strict';
 
-class Library extends React.Component{
+function DeleteBtn(props){
+    return(
+        <button
+            className="delBtn"
+            onClick={()=>props.onClick()}
+        >
+            DELETE
+        </button>
+    );
+}
+
+class Book extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            title: "Test Book",
-            author: "Test Author",
-            pages: "123",
-            read: false,
-            books:[{title:"Foundation", author:"Isaac Asimov", pages:244, read:true},{title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true}]
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event){
-        const target = event.target;
-        const value = target.name === "read"? target.checked: target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
-    }
-
-    handleSubmit(event){
-        const newBooks = this.state.books;
-        this.setState({
-            books: newBooks.concat([{
-                title:this.state.title,
-                author:this.state.author,
-                pages:this.state.pages,
-                read:this.state.read
-            }]),
-            title:"",
-            author:"",
-            pages:"",
-            read:""
-        }, () => {
-            console.table(this.state.books);
-        });
-        event.preventDefault();
     }
 
     render(){
-        const values = {
-            title: this.state.title,
-            author: this.state.author,
-            pages: this.state.pages,
-            read: this.state.read
-        }
+        let read;
+        this.props.book.read? read = "READ": read = 'NOT READ';
         return(
-            <div>
-                <BookInput
-                    onInputChange ={this.handleChange}
-                    onFormSubmit={this.handleSubmit}
-                    {...values}
-                />
-                <BookContainer
-                    books = {this.state.books}
+            <div className="aBook">
+                <p className="title">{this.props.book.title}</p>
+                <p className="author">{this.props.book.author}</p>
+                <p className="pages">{this.props.book.pages}</p>
+                <p className="readBtn">{read}</p>
+                <DeleteBtn
+                    onClick={() => this.props.handleDel(event)}
                 />
             </div>
         );
@@ -134,60 +102,97 @@ class BookInput extends React.Component{
     }
 }
 
-class Book extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {clickDel: false}
-    }
-
-    handleClick(){
-        this.setState({clickDel: true});
-    }
-
-    render(){
-        let read;
-        this.props.book.read? read = "READ": read = 'NOT READ';
-
-        if (this.state.clickDel) return (null);
-
-        return(
-            <div className="aBook">
-                <p>{this.props.book.title}</p>
-                <p>{this.props.book.author}</p>
-                <p>{this.props.book.pages}</p>
-                <p className="readBtn">{read}</p>
-                {/* <button className="delBtn">DELETE</button> */}
-                <DeleteBtn
-                    onClick={() => this.handleClick()}
-                    value = {this.state.clickDel}
-                />
-            </div>
-        );
-    }
-}
-
-function DeleteBtn(props){
-    if(props.value){
-        return 'Works'
-    }
-    return(
-        <button
-            className="delBtn"
-            onClick={()=>props.onClick()}
-        >
-            DELETE
-        </button>
-    );
-}
-
-
 function BookContainer(props){
     const books = props.books;
     return(
         <div className="books">
-            {books.map(book => <Book key={book.title} book={book} /> )}
+            {books.map(book => <Book 
+            handleDel={() => props.handleDel(event)} 
+            key={book.title} 
+            book={book} 
+                /> 
+            )}
         </div>
     );
+}
+
+class Library extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            title: "Test Book",
+            author: "Test Author",
+            pages: 123,
+            read: false,
+            books:[{title:"Foundation", author:"Isaac Asimov", pages:244, read:true},{title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true}]
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDel = this.handleDel.bind(this);
+    }
+
+    handleChange(event){
+        const target = event.target;
+        const value = target.name === "read"? target.checked: target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event){
+        const newBooks = this.state.books;
+        this.setState({
+            books: newBooks.concat([{
+                title:this.state.title,
+                author:this.state.author,
+                pages:this.state.pages,
+                read:this.state.read
+            }]),
+            title:"",
+            author:"",
+            pages:"",
+            read:""
+        }, () => {
+            console.table(this.state.books);
+        });
+        event.preventDefault();
+    }
+
+    handleDel(event){
+        const target = event.target.parentElement;
+        const title = target.querySelector(".title").innerHTML;
+        const newBooks = this.state.books;
+        const index = newBooks.map((book) => {return book.title}).indexOf(title);
+        newBooks.splice(index,1);
+        this.setState({
+            books:newBooks
+        });
+
+    }
+
+    render(){
+        const values = {
+            title: this.state.title,
+            author: this.state.author,
+            pages: this.state.pages,
+            read: this.state.read
+        }
+        return(
+            <div>
+                <BookInput
+                    onInputChange ={this.handleChange}
+                    onFormSubmit={this.handleSubmit}
+                    {...values}
+                />
+                <BookContainer
+                    handleDel={this.handleDel} 
+                    books = {this.state.books}
+                />
+            </div>
+        );
+    }
 }
 
 let domContainer = document.querySelector('#reactTest');

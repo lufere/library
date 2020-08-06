@@ -10,81 +10,68 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Library = function (_React$Component) {
-    _inherits(Library, _React$Component);
+function DeleteBtn(props) {
+    return React.createElement(
+        "button",
+        {
+            className: "delBtn",
+            onClick: function onClick() {
+                return props.onClick();
+            }
+        },
+        "DELETE"
+    );
+}
 
-    function Library(props) {
-        _classCallCheck(this, Library);
+var Book = function (_React$Component) {
+    _inherits(Book, _React$Component);
 
-        var _this = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
+    function Book(props) {
+        _classCallCheck(this, Book);
 
-        _this.state = {
-            title: "Test Book",
-            author: "Test Author",
-            pages: "123",
-            read: false,
-            books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true }]
-        };
-        _this.handleChange = _this.handleChange.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
     }
 
-    _createClass(Library, [{
-        key: "handleChange",
-        value: function handleChange(event) {
-            var target = event.target;
-            var value = target.name === "read" ? target.checked : target.value;
-            var name = target.name;
-
-            this.setState(_defineProperty({}, name, value));
-        }
-    }, {
-        key: "handleSubmit",
-        value: function handleSubmit(event) {
-            var _this2 = this;
-
-            var newBooks = this.state.books;
-            this.setState({
-                books: newBooks.concat([{
-                    title: this.state.title,
-                    author: this.state.author,
-                    pages: this.state.pages,
-                    read: this.state.read
-                }]),
-                title: "",
-                author: "",
-                pages: "",
-                read: ""
-            }, function () {
-                console.table(_this2.state.books);
-            });
-            event.preventDefault();
-        }
-    }, {
+    _createClass(Book, [{
         key: "render",
         value: function render() {
-            var values = {
-                title: this.state.title,
-                author: this.state.author,
-                pages: this.state.pages,
-                read: this.state.read
-            };
+            var _this2 = this;
+
+            var read = void 0;
+            this.props.book.read ? read = "READ" : read = 'NOT READ';
             return React.createElement(
                 "div",
-                null,
-                React.createElement(BookInput, Object.assign({
-                    onInputChange: this.handleChange,
-                    onFormSubmit: this.handleSubmit
-                }, values)),
-                React.createElement(BookContainer, {
-                    books: this.state.books
+                { className: "aBook" },
+                React.createElement(
+                    "p",
+                    { className: "title" },
+                    this.props.book.title
+                ),
+                React.createElement(
+                    "p",
+                    { className: "author" },
+                    this.props.book.author
+                ),
+                React.createElement(
+                    "p",
+                    { className: "pages" },
+                    this.props.book.pages
+                ),
+                React.createElement(
+                    "p",
+                    { className: "readBtn" },
+                    read
+                ),
+                React.createElement(DeleteBtn, {
+                    onClick: function onClick() {
+                        return _this2.props.handleDel(event);
+                    }
                 })
             );
         }
     }]);
 
-    return Library;
+    return Book;
 }(React.Component);
 
 var BookInput = function (_React$Component2) {
@@ -179,95 +166,115 @@ var BookInput = function (_React$Component2) {
     return BookInput;
 }(React.Component);
 
-var Book = function (_React$Component3) {
-    _inherits(Book, _React$Component3);
-
-    function Book(props) {
-        _classCallCheck(this, Book);
-
-        var _this4 = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
-
-        _this4.state = { clickDel: false };
-        return _this4;
-    }
-
-    _createClass(Book, [{
-        key: "handleClick",
-        value: function handleClick() {
-            this.setState({ clickDel: true });
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var _this5 = this;
-
-            var read = void 0;
-            this.props.book.read ? read = "READ" : read = 'NOT READ';
-
-            if (this.state.clickDel) return null;
-
-            return React.createElement(
-                "div",
-                { className: "aBook" },
-                React.createElement(
-                    "p",
-                    null,
-                    this.props.book.title
-                ),
-                React.createElement(
-                    "p",
-                    null,
-                    this.props.book.author
-                ),
-                React.createElement(
-                    "p",
-                    null,
-                    this.props.book.pages
-                ),
-                React.createElement(
-                    "p",
-                    { className: "readBtn" },
-                    read
-                ),
-                React.createElement(DeleteBtn, {
-                    onClick: function onClick() {
-                        return _this5.handleClick();
-                    },
-                    value: this.state.clickDel
-                })
-            );
-        }
-    }]);
-
-    return Book;
-}(React.Component);
-
-function DeleteBtn(props) {
-    if (props.value) {
-        return 'Works';
-    }
-    return React.createElement(
-        "button",
-        {
-            className: "delBtn",
-            onClick: function onClick() {
-                return props.onClick();
-            }
-        },
-        "DELETE"
-    );
-}
-
 function BookContainer(props) {
     var books = props.books;
     return React.createElement(
         "div",
         { className: "books" },
         books.map(function (book) {
-            return React.createElement(Book, { key: book.title, book: book });
+            return React.createElement(Book, {
+                handleDel: function handleDel() {
+                    return props.handleDel(event);
+                },
+                key: book.title,
+                book: book
+            });
         })
     );
 }
+
+var Library = function (_React$Component3) {
+    _inherits(Library, _React$Component3);
+
+    function Library(props) {
+        _classCallCheck(this, Library);
+
+        var _this4 = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
+
+        _this4.state = {
+            title: "Test Book",
+            author: "Test Author",
+            pages: 123,
+            read: false,
+            books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true }]
+        };
+        _this4.handleChange = _this4.handleChange.bind(_this4);
+        _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
+        _this4.handleDel = _this4.handleDel.bind(_this4);
+        return _this4;
+    }
+
+    _createClass(Library, [{
+        key: "handleChange",
+        value: function handleChange(event) {
+            var target = event.target;
+            var value = target.name === "read" ? target.checked : target.value;
+            var name = target.name;
+
+            this.setState(_defineProperty({}, name, value));
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(event) {
+            var _this5 = this;
+
+            var newBooks = this.state.books;
+            this.setState({
+                books: newBooks.concat([{
+                    title: this.state.title,
+                    author: this.state.author,
+                    pages: this.state.pages,
+                    read: this.state.read
+                }]),
+                title: "",
+                author: "",
+                pages: "",
+                read: ""
+            }, function () {
+                console.table(_this5.state.books);
+            });
+            event.preventDefault();
+        }
+    }, {
+        key: "handleDel",
+        value: function handleDel(event) {
+            var target = event.target.parentElement;
+            var title = target.querySelector(".title").innerHTML;
+            var newBooks = this.state.books;
+            var index = newBooks.map(function (book) {
+                return book.title;
+            }).indexOf(title);
+            newBooks.splice(index, 1);
+            this.setState({
+                books: newBooks
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var values = {
+                title: this.state.title,
+                author: this.state.author,
+                pages: this.state.pages,
+                read: this.state.read
+            };
+            return React.createElement(
+                "div",
+                null,
+                React.createElement(BookInput, Object.assign({
+                    onInputChange: this.handleChange,
+                    onFormSubmit: this.handleSubmit
+                }, values)),
+                React.createElement(BookContainer, {
+                    handleDel: this.handleDel,
+                    books: this.state.books
+                })
+            );
+        }
+    }]);
+
+    return Library;
+}(React.Component);
 
 var domContainer = document.querySelector('#reactTest');
 ReactDOM.render(React.createElement(Library, null), domContainer);
