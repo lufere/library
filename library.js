@@ -276,5 +276,5 @@ var Library = function (_React$Component3) {
     return Library;
 }(React.Component);
 
-var domContainer = document.querySelector('#reactTest');
+var domContainer = document.querySelector('body');
 ReactDOM.render(React.createElement(Library, null), domContainer);

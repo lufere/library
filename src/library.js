@@ -195,5 +195,5 @@ class Library extends React.Component{
     }
 }
 
-let domContainer = document.querySelector('#reactTest');
+let domContainer = document.querySelector('body');
 ReactDOM.render(<Library/>, domContainer);
