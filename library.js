@@ -215,16 +215,18 @@ var Library = function (_React$Component3) {
         var _this4 = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
 
         _this4.state = {
-            title: "Test Book",
-            author: "Test Author",
-            pages: 123,
-            cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg",
+            title: "Dune",
+            author: "Frank Herbert",
+            pages: 604,
+            cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414l/44767458.jpg",
             read: false,
+            search: "A storm of swords",
             books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg" }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg" }]
         };
         _this4.handleChange = _this4.handleChange.bind(_this4);
         _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
         _this4.handleDel = _this4.handleDel.bind(_this4);
+        _this4.searchBook = _this4.searchBook.bind(_this4);
         return _this4;
     }
 
@@ -276,6 +278,16 @@ var Library = function (_React$Component3) {
             });
         }
     }, {
+        key: "searchBook",
+        value: function searchBook() {
+            var query = this.state.search;
+            fetch("https://www.googleapis.com/books/v1/volumes?q=" + query).then(function (res) {
+                return res.json();
+            }).then(function (result) {
+                console.log(result);
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var values = {
@@ -292,15 +304,92 @@ var Library = function (_React$Component3) {
                     handleDel: this.handleDel,
                     books: this.state.books
                 }),
-                React.createElement(BookInput, Object.assign({
-                    onInputChange: this.handleChange,
-                    onFormSubmit: this.handleSubmit
-                }, values))
+                React.createElement(
+                    "div",
+                    { id: "searchBars" },
+                    React.createElement(BookInput, Object.assign({
+                        onInputChange: this.handleChange,
+                        onFormSubmit: this.handleSubmit
+                    }, values)),
+                    React.createElement(
+                        "p",
+                        { id: "or" },
+                        "OR"
+                    ),
+                    React.createElement(BookSearch, {
+                        onInputChange: this.handleChange,
+                        onFormSubmit: this.searchBook,
+                        search: this.state.search
+                    })
+                )
             );
         }
     }]);
 
     return Library;
+}(React.Component);
+
+var BookSearch = function (_React$Component4) {
+    _inherits(BookSearch, _React$Component4);
+
+    function BookSearch(props) {
+        _classCallCheck(this, BookSearch);
+
+        var _this6 = _possibleConstructorReturn(this, (BookSearch.__proto__ || Object.getPrototypeOf(BookSearch)).call(this, props));
+
+        _this6.handleChange = _this6.handleChange.bind(_this6);
+        _this6.handleSubmit = _this6.handleSubmit.bind(_this6);
+        return _this6;
+    }
+
+    _createClass(BookSearch, [{
+        key: "handleChange",
+        value: function handleChange(event) {
+            this.props.onInputChange(event);
+        }
+    }, {
+        key: "handleSubmit",
+        value: function handleSubmit(event) {
+            this.props.onFormSubmit(event);
+            event.preventDefault();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "form",
+                { id: "inputs" },
+                React.createElement(
+                    "h2",
+                    null,
+                    "Search in Google Books:"
+                ),
+                React.createElement(
+                    "label",
+                    null,
+                    "Search query:",
+                    React.createElement("input", {
+                        name: "search",
+                        type: "text",
+                        id: "search",
+                        value: this.props.search,
+                        onChange: this.handleChange
+                    })
+                ),
+                React.createElement(
+                    "button",
+                    {
+                        type: "button",
+                        id: "btn",
+                        onClick: this.handleSubmit
+                    },
+                    "Search Book"
+                )
+            );
+        }
+    }]);
+
+    return BookSearch;
 }(React.Component);
 
 var domContainer = document.querySelector('#root');

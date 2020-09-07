@@ -135,11 +135,12 @@ class Library extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            title: "Test Book",
-            author: "Test Author",
-            pages: 123,
-            cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg",
+            title: "Dune",
+            author: "Frank Herbert",
+            pages: 604,
+            cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414l/44767458.jpg",
             read: false,
+            search:"A storm of swords",
             books:[
                 {title:"Foundation", author:"Isaac Asimov", pages:244, read:true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg"},
                 {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"}
@@ -148,6 +149,7 @@ class Library extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDel = this.handleDel.bind(this);
+        this.searchBook = this.searchBook.bind(this);
     }
 
     handleChange(event){
@@ -190,7 +192,16 @@ class Library extends React.Component{
         this.setState({
             books:newBooks
         });
+    }
 
+    searchBook(){
+        let query = this.state.search;
+        fetch("https://www.googleapis.com/books/v1/volumes?q="+query)
+        .then(function(res){
+            return res.json()
+        }).then(function(result){
+            console.log(result)
+        })
     }
 
     render(){
@@ -199,26 +210,73 @@ class Library extends React.Component{
             author: this.state.author,
             pages: this.state.pages,
             cover: this.state.cover,
-            read: this.state.read
+            read: this.state.read,
         }
         return(
             <div>
-
                 <BookContainer
                     handleDel={this.handleDel} 
                     books = {this.state.books}
                 />
-                <BookInput
-                    onInputChange ={this.handleChange}
-                    onFormSubmit={this.handleSubmit}
-                    {...values}
-                />
+                <div id="searchBars">
+                    <BookInput
+                        onInputChange ={this.handleChange}
+                        onFormSubmit={this.handleSubmit}
+                        {...values}
+                    />
+                    <p id="or">OR</p>
+                    <BookSearch
+                        onInputChange ={this.handleChange}
+                        onFormSubmit={this.searchBook}
+                        search = {this.state.search}
+                    />
+                </div>
             </div>
         );
     }
 }
 
+class BookSearch extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    handleChange(event){
+        this.props.onInputChange(event);
+    }
+
+    handleSubmit(event){
+        this.props.onFormSubmit(event);
+        event.preventDefault();
+    }
+
+    render(){
+        return(
+            <form id="inputs">
+            <h2>Search in Google Books:</h2>
+                <label>
+                    Search query:
+                    <input 
+                    name="search" 
+                    type="text" 
+                    id="search" 
+                    value={this.props.search}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <button 
+                type="button" 
+                id = "btn"
+                onClick={this.handleSubmit}
+                >
+                    Search Book
+                </button>
+            </form>
+        );
+    }
+}
 
 let domContainer = document.querySelector('#root');
 ReactDOM.render(<Library/>, domContainer);

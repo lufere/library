@@ -61,12 +61,13 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 5px 5px;
+    margin: 10px 10px;
 }
 
 .aBookWrapper:hover{
     width: 188px;
     height: 266px;
+    margin:10px 5px 0 5px;
 }
 
 .aBook p{
@@ -85,4 +86,27 @@ body{
 h2{
     padding-bottom:10px;
     font-weight: bold;
+}
+
+#searchBars{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#or{
+    margin: 0 40px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+form{
+    background-color: rgb(230, 211, 177);
+    border: 2px solid black;
+    padding: 10px;
+    box-shadow: 2px 2px rgb(117, 117, 117);
+}
+
+form label{
+    margin-bottom: 10px;
 }
