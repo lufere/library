@@ -1,3 +1,11 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+body{
+    background-color: rgb(255, 234, 196);
+}
+
 #inputs{
     display: flex;
     flex-direction: column;
@@ -32,15 +40,33 @@
 }
 
 .aBook{
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
     display:flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: solid;
     padding: 0 20px;
-    margin: 0 5px;
+    background-color: rgba(0, 0, 0, 0.507);
+    height: 180px;
     width: 150px;
-    height: 200px;
+}
+
+.aBookWrapper{
+    background-size:cover;
+    border: solid;
+    width: 178px;
+    height: 256px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 5px;
+}
+
+.aBookWrapper:hover{
+    width: 188px;
+    height: 266px;
 }
 
 .aBook p{
@@ -54,4 +80,9 @@
     border-color: rgb(128, 13, 13);
     font-weight: bold;
     color: white;
+}
+
+h2{
+    padding-bottom:10px;
+    font-weight: bold;
 }

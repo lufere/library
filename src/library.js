@@ -11,28 +11,6 @@ function DeleteBtn(props){
     );
 }
 
-class Book extends React.Component {
-    constructor(props){
-        super(props);
-    }
-
-    render(){
-        let read;
-        this.props.book.read? read = "READ": read = 'NOT READ';
-        return(
-            <div className="aBook">
-                <p className="title">{this.props.book.title}</p>
-                <p className="author">{this.props.book.author}</p>
-                <p className="pages">{this.props.book.pages}</p>
-                <p className="readBtn">{read}</p>
-                <DeleteBtn
-                    onClick={() => this.props.handleDel(event)}
-                />
-            </div>
-        );
-    }
-}
-
 class BookInput extends React.Component{
     constructor(props){
         super(props);
@@ -52,6 +30,7 @@ class BookInput extends React.Component{
     render(){
         return(
             <form id="inputs">
+            <h2>Add a book manually:</h2>
                 <label>
                     Title:
                     <input 
@@ -81,6 +60,15 @@ class BookInput extends React.Component{
                     />
                 </label>
                 <label>
+                    Cover URL:
+                    <input name="cover" 
+                    type="text" 
+                    id="cover" 
+                    value={this.props.cover}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <label>
                     Read?
                     <input 
                     name="read" 
@@ -98,6 +86,33 @@ class BookInput extends React.Component{
                     Add Book
                 </button>
             </form>
+        );
+    }
+}
+
+class Book extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    render(){
+        let read;
+        let defaultBG = "https://cdn.hipwallpaper.com/i/7/96/AKf6Qb.jpg";
+        let background;
+        this.props.book.cover? background = this.props.book.cover: background = defaultBG;
+        this.props.book.read? read = "READ": read = 'NOT READ';
+        return(
+            <div className="aBookWrapper" style={{backgroundImage:`url(${background})`}}>
+            <div className="aBook">
+                <p className="title">{this.props.book.title}</p>
+                <p className="author">{this.props.book.author}</p>
+                <p className="pages">{this.props.book.pages}</p>
+                <p className="readBtn">{read}</p>
+                <DeleteBtn
+                    onClick={() => this.props.handleDel(event)}
+                />
+            </div>
+            </div>
         );
     }
 }
@@ -123,8 +138,12 @@ class Library extends React.Component{
             title: "Test Book",
             author: "Test Author",
             pages: 123,
+            cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg",
             read: false,
-            books:[{title:"Foundation", author:"Isaac Asimov", pages:244, read:true},{title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true}]
+            books:[
+                {title:"Foundation", author:"Isaac Asimov", pages:244, read:true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg"},
+                {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"}
+            ]
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -148,11 +167,13 @@ class Library extends React.Component{
                 title:this.state.title,
                 author:this.state.author,
                 pages:this.state.pages,
+                cover:this.state.cover,
                 read:this.state.read
             }]),
             title:"",
             author:"",
             pages:"",
+            cover:"",
             read:""
         }, () => {
             console.table(this.state.books);
@@ -177,23 +198,27 @@ class Library extends React.Component{
             title: this.state.title,
             author: this.state.author,
             pages: this.state.pages,
+            cover: this.state.cover,
             read: this.state.read
         }
         return(
             <div>
+
+                <BookContainer
+                    handleDel={this.handleDel} 
+                    books = {this.state.books}
+                />
                 <BookInput
                     onInputChange ={this.handleChange}
                     onFormSubmit={this.handleSubmit}
                     {...values}
-                />
-                <BookContainer
-                    handleDel={this.handleDel} 
-                    books = {this.state.books}
                 />
             </div>
         );
     }
 }
 
-let domContainer = document.querySelector('body');
+
+
+let domContainer = document.querySelector('#root');
 ReactDOM.render(<Library/>, domContainer);
