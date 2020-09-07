@@ -31,6 +31,7 @@ body{
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
+    /* align-items: center; */
     /* border: solid 1px blue; */
 }
 
@@ -56,18 +57,20 @@ body{
 .aBookWrapper{
     background-size:cover;
     border: solid;
-    width: 178px;
+    width: 188px;
     height: 286px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 10px 10px;
     box-shadow: 4px 4px rgb(117, 117, 117);
+    transition: all .2s ease-in-out;
 }
 
 .aBookWrapper:hover{
-    width: 188px;
-    height: 296px;
+    /* width: 198px;
+    height: 296px; */
+    transform: scale(1.05);
     margin:10px 5px 0 5px;
 }
 
@@ -93,6 +96,10 @@ h2{
     display: flex;
     justify-content: center;
     align-items: center;
+    /* margin-bottom: 100px; */
+    margin-top: 20px;
+    /* position: absolute;
+    bottom: 10px; */
 }
 
 #or{

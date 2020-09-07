@@ -106,7 +106,7 @@ class Book extends React.Component {
             <div className="aBook">
                 <p className="title">{this.props.book.title}</p>
                 <p className="author">{this.props.book.author}</p>
-                <p className="pages">{this.props.book.pages}</p>
+                <p className="pages">{this.props.book.pages + " Pages"}</p>
                 <p className="readBtn">{read}</p>
                 <DeleteBtn
                     onClick={() => this.props.handleDel(event)}
@@ -140,7 +140,7 @@ class Library extends React.Component{
             pages: 604,
             cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414l/44767458.jpg",
             read: false,
-            search:"A storm of swords",
+            search:"Oathbringer",
             books:[
                 {title:"Foundation", author:"Isaac Asimov", pages:244, read:true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg"},
                 {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"}
@@ -195,7 +195,7 @@ class Library extends React.Component{
     }
 
     searchBook(event){
-        // event.persist()
+        event.persist()
         let query = this.state.search;
         fetch("https://www.googleapis.com/books/v1/volumes?q="+query)
         .then((res)=>{

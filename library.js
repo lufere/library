@@ -169,7 +169,7 @@ var Book = function (_React$Component2) {
                     React.createElement(
                         "p",
                         { className: "pages" },
-                        this.props.book.pages
+                        this.props.book.pages + " Pages"
                     ),
                     React.createElement(
                         "p",
@@ -220,7 +220,7 @@ var Library = function (_React$Component3) {
             pages: 604,
             cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414l/44767458.jpg",
             read: false,
-            search: "A storm of swords",
+            search: "Oathbringer",
             books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg" }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg" }]
         };
         _this4.handleChange = _this4.handleChange.bind(_this4);
@@ -280,7 +280,7 @@ var Library = function (_React$Component3) {
         value: function searchBook(event) {
             var _this5 = this;
 
-            // event.persist()
+            event.persist();
             var query = this.state.search;
             fetch("https://www.googleapis.com/books/v1/volumes?q=" + query).then(function (res) {
                 return res.json();
