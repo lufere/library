@@ -242,8 +242,6 @@ var Library = function (_React$Component3) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
-            var _this5 = this;
-
             var newBooks = this.state.books;
             this.setState({
                 books: newBooks.concat([{
@@ -259,7 +257,7 @@ var Library = function (_React$Component3) {
                 cover: "",
                 read: ""
             }, function () {
-                console.table(_this5.state.books);
+                // console.table(this.state.books);
             });
             event.preventDefault();
         }
@@ -279,13 +277,25 @@ var Library = function (_React$Component3) {
         }
     }, {
         key: "searchBook",
-        value: function searchBook() {
+        value: function searchBook(event) {
+            var _this5 = this;
+
+            // event.persist()
             var query = this.state.search;
             fetch("https://www.googleapis.com/books/v1/volumes?q=" + query).then(function (res) {
                 return res.json();
             }).then(function (result) {
                 console.log(result);
+                _this5.setState({
+                    title: result.items[0].volumeInfo.title,
+                    author: result.items[0].volumeInfo.authors[0],
+                    pages: result.items[0].volumeInfo.pageCount,
+                    cover: result.items[0].volumeInfo.imageLinks.smallThumbnail
+                });
+                _this5.handleSubmit(event);
             });
+            this.setState({ search: "" });
+            event.preventDefault();
         }
     }, {
         key: "render",
@@ -358,7 +368,9 @@ var BookSearch = function (_React$Component4) {
         value: function render() {
             return React.createElement(
                 "form",
-                { id: "inputs" },
+                { id: "inputs", onSubmit: function onSubmit(e) {
+                        e.preventDefault();
+                    } },
                 React.createElement(
                     "h2",
                     null,

@@ -57,16 +57,17 @@ body{
     background-size:cover;
     border: solid;
     width: 178px;
-    height: 256px;
+    height: 286px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 10px 10px;
+    box-shadow: 4px 4px rgb(117, 117, 117);
 }
 
 .aBookWrapper:hover{
     width: 188px;
-    height: 266px;
+    height: 296px;
     margin:10px 5px 0 5px;
 }
 

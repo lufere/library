@@ -178,7 +178,7 @@ class Library extends React.Component{
             cover:"",
             read:""
         }, () => {
-            console.table(this.state.books);
+            // console.table(this.state.books);
         });
         event.preventDefault();
     }
@@ -194,14 +194,24 @@ class Library extends React.Component{
         });
     }
 
-    searchBook(){
+    searchBook(event){
+        // event.persist()
         let query = this.state.search;
         fetch("https://www.googleapis.com/books/v1/volumes?q="+query)
-        .then(function(res){
+        .then((res)=>{
             return res.json()
-        }).then(function(result){
-            console.log(result)
-        })
+        }).then((result)=>{
+            console.log(result);
+            this.setState({
+                title: result.items[0].volumeInfo.title,
+                author: result.items[0].volumeInfo.authors[0],
+                pages: result.items[0].volumeInfo.pageCount,
+                cover: result.items[0].volumeInfo.imageLinks.smallThumbnail
+            });
+            this.handleSubmit(event);
+    })
+        this.setState({search:""});
+        event.preventDefault();
     }
 
     render(){
@@ -254,7 +264,7 @@ class BookSearch extends React.Component{
 
     render(){
         return(
-            <form id="inputs">
+            <form id="inputs" onSubmit={e => { e.preventDefault(); }}>
             <h2>Search in Google Books:</h2>
                 <label>
                     Search query:
