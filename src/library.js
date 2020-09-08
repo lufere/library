@@ -143,7 +143,8 @@ class Library extends React.Component{
             search:"Oathbringer",
             books:[
                 {title:"Foundation", author:"Isaac Asimov", pages:244, read:true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg"},
-                {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"}
+                {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"},
+                {title:"A Storm of Swords", author:"George R. R. Martin", pages:992, read:true, cover: "https://images-na.ssl-images-amazon.com/images/I/91-KBK-9K2L.jpg"}
             ]
         };
         this.handleChange = this.handleChange.bind(this);

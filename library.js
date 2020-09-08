@@ -221,7 +221,7 @@ var Library = function (_React$Component3) {
             cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414l/44767458.jpg",
             read: false,
             search: "Oathbringer",
-            books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg" }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg" }]
+            books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg" }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg" }, { title: "A Storm of Swords", author: "George R. R. Martin", pages: 992, read: true, cover: "https://images-na.ssl-images-amazon.com/images/I/91-KBK-9K2L.jpg" }]
         };
         _this4.handleChange = _this4.handleChange.bind(_this4);
         _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
