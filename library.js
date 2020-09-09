@@ -231,6 +231,13 @@ var Library = function (_React$Component3) {
     }
 
     _createClass(Library, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            // localStorage.removeItem('library');
+            var library = JSON.parse(localStorage.getItem('library'));
+            if (library) this.setState({ books: library });
+        }
+    }, {
         key: "handleChange",
         value: function handleChange(event) {
             var target = event.target;
@@ -242,6 +249,8 @@ var Library = function (_React$Component3) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
+            var _this5 = this;
+
             var newBooks = this.state.books;
             this.setState({
                 books: newBooks.concat([{
@@ -258,12 +267,15 @@ var Library = function (_React$Component3) {
                 read: ""
             }, function () {
                 // console.table(this.state.books);
+                localStorage.setItem('library', JSON.stringify(_this5.state.books));
             });
             event.preventDefault();
         }
     }, {
         key: "handleDel",
         value: function handleDel(event) {
+            var _this6 = this;
+
             var target = event.target.parentElement;
             var title = target.querySelector(".title").innerHTML;
             var newBooks = this.state.books;
@@ -273,12 +285,14 @@ var Library = function (_React$Component3) {
             newBooks.splice(index, 1);
             this.setState({
                 books: newBooks
+            }, function () {
+                localStorage.setItem('library', JSON.stringify(_this6.state.books));
             });
         }
     }, {
         key: "searchBook",
         value: function searchBook(event) {
-            var _this5 = this;
+            var _this7 = this;
 
             event.persist();
             var query = this.state.search;
@@ -286,13 +300,13 @@ var Library = function (_React$Component3) {
                 return res.json();
             }).then(function (result) {
                 console.log(result);
-                _this5.setState({
+                _this7.setState({
                     title: result.items[0].volumeInfo.title,
                     author: result.items[0].volumeInfo.authors[0],
                     pages: result.items[0].volumeInfo.pageCount,
                     cover: result.items[0].volumeInfo.imageLinks.smallThumbnail
                 });
-                _this5.handleSubmit(event);
+                _this7.handleSubmit(event);
             });
             this.setState({ search: "" });
             event.preventDefault();
@@ -345,11 +359,11 @@ var BookSearch = function (_React$Component4) {
     function BookSearch(props) {
         _classCallCheck(this, BookSearch);
 
-        var _this6 = _possibleConstructorReturn(this, (BookSearch.__proto__ || Object.getPrototypeOf(BookSearch)).call(this, props));
+        var _this8 = _possibleConstructorReturn(this, (BookSearch.__proto__ || Object.getPrototypeOf(BookSearch)).call(this, props));
 
-        _this6.handleChange = _this6.handleChange.bind(_this6);
-        _this6.handleSubmit = _this6.handleSubmit.bind(_this6);
-        return _this6;
+        _this8.handleChange = _this8.handleChange.bind(_this8);
+        _this8.handleSubmit = _this8.handleSubmit.bind(_this8);
+        return _this8;
     }
 
     _createClass(BookSearch, [{

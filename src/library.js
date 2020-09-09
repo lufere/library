@@ -152,6 +152,12 @@ class Library extends React.Component{
         this.handleDel = this.handleDel.bind(this);
         this.searchBook = this.searchBook.bind(this);
     }
+    
+    componentDidMount(){
+        // localStorage.removeItem('library');
+        let library = JSON.parse(localStorage.getItem('library'));
+        if(library) this.setState({books: library});
+    }
 
     handleChange(event){
         const target = event.target;
@@ -180,6 +186,7 @@ class Library extends React.Component{
             read:""
         }, () => {
             // console.table(this.state.books);
+            localStorage.setItem('library', JSON.stringify(this.state.books));
         });
         event.preventDefault();
     }
@@ -192,6 +199,8 @@ class Library extends React.Component{
         newBooks.splice(index,1);
         this.setState({
             books:newBooks
+        }, ()=>{
+            localStorage.setItem('library', JSON.stringify(this.state.books));
         });
     }
 
