@@ -66,6 +66,7 @@ body{
     margin: 10px 10px;
     box-shadow: 4px 4px rgb(117, 117, 117);
     transition: all .2s ease-in-out;
+    position: relative;
 }
 
 .aBookWrapper:hover{
@@ -118,4 +119,24 @@ form{
 
 form label{
     margin-bottom: 10px;
+}
+
+.read{
+    height: 40px;
+    width: 20px;
+    border: 2px solid rgb(151, 0, 0);
+    background-color: rgb(204, 0, 0);
+    position: absolute;
+    top: -3px;
+    right: 10%;
+}
+
+.notRead{
+    height: 40px;
+    width: 20px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(148, 148, 148);
+    position: absolute;
+    top: -3px;
+    right: 10%;
 }

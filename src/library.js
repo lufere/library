@@ -11,6 +11,32 @@ function DeleteBtn(props){
     );
 }
 
+class ReadBtn extends React.Component{
+    constructor(props){
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event){
+        let readClass = event.target.className;
+        console.log(readClass);
+        console.log(this.props.read);
+    }
+
+    render(){
+        let renderClass;
+        this.props.read? renderClass = "read" : renderClass= "notRead";
+        return(
+            <div
+                className = {renderClass}
+                onClick = {this.handleClick}
+            >    
+            </div>
+        )
+    }
+}
+
+
 class BookInput extends React.Component{
     constructor(props){
         super(props);
@@ -107,7 +133,11 @@ class Book extends React.Component {
                 <p className="title">{this.props.book.title}</p>
                 <p className="author">{this.props.book.author}</p>
                 <p className="pages">{this.props.book.pages + " Pages"}</p>
-                <p className="readBtn">{read}</p>
+                {/* <p className="readBtn">{read}</p> */}
+                <ReadBtn
+                    read = {this.props.book.read}
+                />
+                {/* <div className="unreadIcon"></div> */}
                 <DeleteBtn
                     onClick={() => this.props.handleDel(event)}
                 />
@@ -145,7 +175,8 @@ class Library extends React.Component{
                 {title:"Foundation", author:"Isaac Asimov", pages:244, read:true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg"},
                 {title:"The Way of Kings", author:"Brandon Sanderson", pages:1007, read:true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg"},
                 {title:"A Storm of Swords", author:"George R. R. Martin", pages:992, read:true, cover: "https://images-na.ssl-images-amazon.com/images/I/91-KBK-9K2L.jpg"}
-            ]
+            ],
+            readSearch: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -161,7 +192,8 @@ class Library extends React.Component{
 
     handleChange(event){
         const target = event.target;
-        const value = target.name === "read"? target.checked: target.value;
+        const value = target.name === "read" || target.name === "readSearch" ? target.checked: target.value;
+        // const value = target.name === "readSearch"? target.checked: target.value;
         const name = target.name;
 
         this.setState({
@@ -211,12 +243,14 @@ class Library extends React.Component{
         .then((res)=>{
             return res.json()
         }).then((result)=>{
-            console.log(result);
+            // console.log(result);
+            console.log(this.state.readSearch);
             this.setState({
                 title: result.items[0].volumeInfo.title,
                 author: result.items[0].volumeInfo.authors[0],
                 pages: result.items[0].volumeInfo.pageCount,
-                cover: result.items[0].volumeInfo.imageLinks.smallThumbnail
+                cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
+                read: this.state.readSearch
             });
             this.handleSubmit(event);
     })
@@ -283,6 +317,16 @@ class BookSearch extends React.Component{
                     type="text" 
                     id="search" 
                     value={this.props.search}
+                    onChange={this.handleChange}
+                    />
+                </label>
+                <label>
+                    Read?
+                    <input 
+                    name="readSearch" 
+                    type="checkbox" 
+                    id="readSearch"
+                    checked={this.props.read}
                     onChange={this.handleChange}
                     />
                 </label>
