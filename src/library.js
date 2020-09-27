@@ -11,30 +11,47 @@ function DeleteBtn(props){
     );
 }
 
-class ReadBtn extends React.Component{
-    constructor(props){
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(event){
-        let readClass = event.target.className;
-        console.log(readClass);
-        console.log(this.props.read);
-    }
-
-    render(){
-        let renderClass;
-        this.props.read? renderClass = "read" : renderClass= "notRead";
-        return(
-            <div
-                className = {renderClass}
-                onClick = {this.handleClick}
-            >    
-            </div>
-        )
-    }
+function ReadBtn(props){
+    let renderClass;
+    props.read? renderClass = "read" : renderClass= "notRead";
+    return(
+        <div
+        className = {renderClass}
+        onClick = {props.onClick}
+        >    
+        </div>
+    );
 }
+
+
+// class ReadBtn extends React.Component{
+//     constructor(props){
+//         super(props);
+//         this.handleClick = this.handleClick.bind(this);
+//     }
+
+//     handleClick(event){
+//         var clickClass = event.target.className;
+//         console.log(clickClass);
+//         // clickClass == "read"? clickClass = "notRead": clickClass = "read";
+//         // console.log(clickClass);
+//         // console.log(this.props.read);
+//         (event)=>this.props.onClick(event);
+//     }
+
+//     render(){
+//         let renderClass;
+//         this.props.read? renderClass = "read" : renderClass= "notRead";
+//         // if(clickClass) renderClass = clickClass;
+//         return(
+//             <div
+//                 className = {renderClass}
+//                 onClick = {this.onClick}
+//             >    
+//             </div>
+//         )
+//     }
+// }
 
 
 class BookInput extends React.Component{
@@ -136,6 +153,7 @@ class Book extends React.Component {
                 {/* <p className="readBtn">{read}</p> */}
                 <ReadBtn
                     read = {this.props.book.read}
+                    onClick={(e)=>this.props.readToggle(e)} 
                 />
                 {/* <div className="unreadIcon"></div> */}
                 <DeleteBtn
@@ -152,7 +170,8 @@ function BookContainer(props){
     return(
         <div className="books">
             {books.map(book => <Book 
-            handleDel={() => props.handleDel(event)} 
+            handleDel={() => props.handleDel(event)}
+            readToggle={(e) => props.readToggle(e)} 
             key={book.title} 
             book={book} 
                 /> 
@@ -182,6 +201,7 @@ class Library extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.searchBook = this.searchBook.bind(this);
+        this.readToggle = this.readToggle.bind(this);
     }
     
     componentDidMount(){
@@ -258,6 +278,21 @@ class Library extends React.Component{
         event.preventDefault();
     }
 
+    readToggle(event){
+        console.log(event.target.parentElement);
+        const target = event.target.parentElement;
+        const title = target.querySelector(".title").innerHTML;
+        const newBooks = this.state.books;
+        const index = newBooks.map((book) => {return book.title}).indexOf(title);
+        newBooks[index].read = !newBooks[index].read;
+        // console.log(newBooks[index].read);
+        this.setState({
+            books:newBooks
+        }, ()=>{
+            localStorage.setItem('library', JSON.stringify(this.state.books));
+        });
+    }
+
     render(){
         const values = {
             title: this.state.title,
@@ -270,6 +305,7 @@ class Library extends React.Component{
             <div>
                 <BookContainer
                     handleDel={this.handleDel} 
+                    readToggle={this.readToggle} 
                     books = {this.state.books}
                 />
                 <div id="searchBars">

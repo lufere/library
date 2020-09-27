@@ -23,51 +23,56 @@ function DeleteBtn(props) {
     );
 }
 
-var ReadBtn = function (_React$Component) {
-    _inherits(ReadBtn, _React$Component);
+function ReadBtn(props) {
+    var renderClass = void 0;
+    props.read ? renderClass = "read" : renderClass = "notRead";
+    return React.createElement("div", {
+        className: renderClass,
+        onClick: props.onClick
+    });
+}
 
-    function ReadBtn(props) {
-        _classCallCheck(this, ReadBtn);
+// class ReadBtn extends React.Component{
+//     constructor(props){
+//         super(props);
+//         this.handleClick = this.handleClick.bind(this);
+//     }
 
-        var _this = _possibleConstructorReturn(this, (ReadBtn.__proto__ || Object.getPrototypeOf(ReadBtn)).call(this, props));
+//     handleClick(event){
+//         var clickClass = event.target.className;
+//         console.log(clickClass);
+//         // clickClass == "read"? clickClass = "notRead": clickClass = "read";
+//         // console.log(clickClass);
+//         // console.log(this.props.read);
+//         (event)=>this.props.onClick(event);
+//     }
 
-        _this.handleClick = _this.handleClick.bind(_this);
-        return _this;
-    }
+//     render(){
+//         let renderClass;
+//         this.props.read? renderClass = "read" : renderClass= "notRead";
+//         // if(clickClass) renderClass = clickClass;
+//         return(
+//             <div
+//                 className = {renderClass}
+//                 onClick = {this.onClick}
+//             >    
+//             </div>
+//         )
+//     }
+// }
 
-    _createClass(ReadBtn, [{
-        key: "handleClick",
-        value: function handleClick(event) {
-            var readClass = event.target.className;
-            console.log(readClass);
-            console.log(this.props.read);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var renderClass = void 0;
-            this.props.read ? renderClass = "read" : renderClass = "notRead";
-            return React.createElement("div", {
-                className: renderClass,
-                onClick: this.handleClick
-            });
-        }
-    }]);
 
-    return ReadBtn;
-}(React.Component);
-
-var BookInput = function (_React$Component2) {
-    _inherits(BookInput, _React$Component2);
+var BookInput = function (_React$Component) {
+    _inherits(BookInput, _React$Component);
 
     function BookInput(props) {
         _classCallCheck(this, BookInput);
 
-        var _this2 = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (BookInput.__proto__ || Object.getPrototypeOf(BookInput)).call(this, props));
 
-        _this2.handleChange = _this2.handleChange.bind(_this2);
-        _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-        return _this2;
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
 
     _createClass(BookInput, [{
@@ -165,8 +170,8 @@ var BookInput = function (_React$Component2) {
     return BookInput;
 }(React.Component);
 
-var Book = function (_React$Component3) {
-    _inherits(Book, _React$Component3);
+var Book = function (_React$Component2) {
+    _inherits(Book, _React$Component2);
 
     function Book(props) {
         _classCallCheck(this, Book);
@@ -177,7 +182,7 @@ var Book = function (_React$Component3) {
     _createClass(Book, [{
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             var read = void 0;
             var defaultBG = "https://cdn.hipwallpaper.com/i/7/96/AKf6Qb.jpg";
@@ -206,11 +211,14 @@ var Book = function (_React$Component3) {
                         this.props.book.pages + " Pages"
                     ),
                     React.createElement(ReadBtn, {
-                        read: this.props.book.read
+                        read: this.props.book.read,
+                        onClick: function onClick(e) {
+                            return _this3.props.readToggle(e);
+                        }
                     }),
                     React.createElement(DeleteBtn, {
                         onClick: function onClick() {
-                            return _this4.props.handleDel(event);
+                            return _this3.props.handleDel(event);
                         }
                     })
                 )
@@ -231,6 +239,9 @@ function BookContainer(props) {
                 handleDel: function handleDel() {
                     return props.handleDel(event);
                 },
+                readToggle: function readToggle(e) {
+                    return props.readToggle(e);
+                },
                 key: book.title,
                 book: book
             });
@@ -238,15 +249,15 @@ function BookContainer(props) {
     );
 }
 
-var Library = function (_React$Component4) {
-    _inherits(Library, _React$Component4);
+var Library = function (_React$Component3) {
+    _inherits(Library, _React$Component3);
 
     function Library(props) {
         _classCallCheck(this, Library);
 
-        var _this5 = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this, props));
 
-        _this5.state = {
+        _this4.state = {
             title: "Dune",
             author: "Frank Herbert",
             pages: 604,
@@ -256,11 +267,12 @@ var Library = function (_React$Component4) {
             books: [{ title: "Foundation", author: "Isaac Asimov", pages: 244, read: true, cover: "https://i.pinimg.com/originals/c6/6e/bc/c66ebc177446badebed65a0d80c45a64.jpg" }, { title: "The Way of Kings", author: "Brandon Sanderson", pages: 1007, read: true, cover: "https://prodimage.images-bn.com/pimages/9780765376671_p0_v5_s1200x630.jpg" }, { title: "A Storm of Swords", author: "George R. R. Martin", pages: 992, read: true, cover: "https://images-na.ssl-images-amazon.com/images/I/91-KBK-9K2L.jpg" }],
             readSearch: false
         };
-        _this5.handleChange = _this5.handleChange.bind(_this5);
-        _this5.handleSubmit = _this5.handleSubmit.bind(_this5);
-        _this5.handleDel = _this5.handleDel.bind(_this5);
-        _this5.searchBook = _this5.searchBook.bind(_this5);
-        return _this5;
+        _this4.handleChange = _this4.handleChange.bind(_this4);
+        _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
+        _this4.handleDel = _this4.handleDel.bind(_this4);
+        _this4.searchBook = _this4.searchBook.bind(_this4);
+        _this4.readToggle = _this4.readToggle.bind(_this4);
+        return _this4;
     }
 
     _createClass(Library, [{
@@ -283,7 +295,7 @@ var Library = function (_React$Component4) {
     }, {
         key: "handleSubmit",
         value: function handleSubmit(event) {
-            var _this6 = this;
+            var _this5 = this;
 
             var newBooks = this.state.books;
             this.setState({
@@ -301,14 +313,14 @@ var Library = function (_React$Component4) {
                 read: ""
             }, function () {
                 // console.table(this.state.books);
-                localStorage.setItem('library', JSON.stringify(_this6.state.books));
+                localStorage.setItem('library', JSON.stringify(_this5.state.books));
             });
             event.preventDefault();
         }
     }, {
         key: "handleDel",
         value: function handleDel(event) {
-            var _this7 = this;
+            var _this6 = this;
 
             var target = event.target.parentElement;
             var title = target.querySelector(".title").innerHTML;
@@ -320,13 +332,13 @@ var Library = function (_React$Component4) {
             this.setState({
                 books: newBooks
             }, function () {
-                localStorage.setItem('library', JSON.stringify(_this7.state.books));
+                localStorage.setItem('library', JSON.stringify(_this6.state.books));
             });
         }
     }, {
         key: "searchBook",
         value: function searchBook(event) {
-            var _this8 = this;
+            var _this7 = this;
 
             event.persist();
             var query = this.state.search;
@@ -334,18 +346,38 @@ var Library = function (_React$Component4) {
                 return res.json();
             }).then(function (result) {
                 // console.log(result);
-                console.log(_this8.state.readSearch);
-                _this8.setState({
+                console.log(_this7.state.readSearch);
+                _this7.setState({
                     title: result.items[0].volumeInfo.title,
                     author: result.items[0].volumeInfo.authors[0],
                     pages: result.items[0].volumeInfo.pageCount,
                     cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
-                    read: _this8.state.readSearch
+                    read: _this7.state.readSearch
                 });
-                _this8.handleSubmit(event);
+                _this7.handleSubmit(event);
             });
             this.setState({ search: "" });
             event.preventDefault();
+        }
+    }, {
+        key: "readToggle",
+        value: function readToggle(event) {
+            var _this8 = this;
+
+            console.log(event.target.parentElement);
+            var target = event.target.parentElement;
+            var title = target.querySelector(".title").innerHTML;
+            var newBooks = this.state.books;
+            var index = newBooks.map(function (book) {
+                return book.title;
+            }).indexOf(title);
+            newBooks[index].read = !newBooks[index].read;
+            // console.log(newBooks[index].read);
+            this.setState({
+                books: newBooks
+            }, function () {
+                localStorage.setItem('library', JSON.stringify(_this8.state.books));
+            });
         }
     }, {
         key: "render",
@@ -362,6 +394,7 @@ var Library = function (_React$Component4) {
                 null,
                 React.createElement(BookContainer, {
                     handleDel: this.handleDel,
+                    readToggle: this.readToggle,
                     books: this.state.books
                 }),
                 React.createElement(
@@ -389,8 +422,8 @@ var Library = function (_React$Component4) {
     return Library;
 }(React.Component);
 
-var BookSearch = function (_React$Component5) {
-    _inherits(BookSearch, _React$Component5);
+var BookSearch = function (_React$Component4) {
+    _inherits(BookSearch, _React$Component4);
 
     function BookSearch(props) {
         _classCallCheck(this, BookSearch);
