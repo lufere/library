@@ -298,23 +298,37 @@ var Library = function (_React$Component3) {
             var _this5 = this;
 
             var newBooks = this.state.books;
-            this.setState({
-                books: newBooks.concat([{
-                    title: this.state.title,
-                    author: this.state.author,
-                    pages: this.state.pages,
-                    cover: this.state.cover,
-                    read: this.state.read
-                }]),
-                title: "",
-                author: "",
-                pages: "",
-                cover: "",
-                read: ""
-            }, function () {
-                // console.table(this.state.books);
-                localStorage.setItem('library', JSON.stringify(_this5.state.books));
-            });
+            var index = newBooks.map(function (book) {
+                return book.title;
+            }).indexOf(this.state.title);
+            if (index == -1) {
+                this.setState({
+                    books: newBooks.concat([{
+                        title: this.state.title,
+                        author: this.state.author,
+                        pages: this.state.pages,
+                        cover: this.state.cover,
+                        read: this.state.read
+                    }]),
+                    title: "",
+                    author: "",
+                    pages: "",
+                    cover: "",
+                    read: ""
+                }, function () {
+                    // console.table(this.state.books);
+                    localStorage.setItem('library', JSON.stringify(_this5.state.books));
+                });
+            } else {
+                this.setState({
+                    title: "",
+                    author: "",
+                    pages: "",
+                    cover: "",
+                    read: ""
+                });
+                alert("That book is already on your library!");
+            }
             event.preventDefault();
         }
     }, {
@@ -345,16 +359,25 @@ var Library = function (_React$Component3) {
             fetch("https://www.googleapis.com/books/v1/volumes?q=" + query).then(function (res) {
                 return res.json();
             }).then(function (result) {
-                // console.log(result);
-                console.log(_this7.state.readSearch);
-                _this7.setState({
-                    title: result.items[0].volumeInfo.title,
-                    author: result.items[0].volumeInfo.authors[0],
-                    pages: result.items[0].volumeInfo.pageCount,
-                    cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
-                    read: _this7.state.readSearch
-                });
-                _this7.handleSubmit(event);
+                // console.log(result.items[0].volumeInfo.title);
+                var title = result.items[0].volumeInfo.title;
+                var newBooks = _this7.state.books;
+                var index = newBooks.map(function (book) {
+                    return book.title;
+                }).indexOf(title);
+                // console.log(this.state.readSearch);
+                if (index == -1) {
+                    _this7.setState({
+                        title: result.items[0].volumeInfo.title,
+                        author: result.items[0].volumeInfo.authors[0],
+                        pages: result.items[0].volumeInfo.pageCount,
+                        cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
+                        read: _this7.state.readSearch
+                    });
+                    _this7.handleSubmit(event);
+                } else {
+                    alert("That book is already on your library!");
+                }
             });
             this.setState({ search: "" });
             event.preventDefault();
