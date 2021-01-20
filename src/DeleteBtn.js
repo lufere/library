@@ -2,7 +2,7 @@ function DeleteBtn(props){
     return(
         <button
             className="delBtn"
-            onClick={()=>props.onClick()}
+            onClick={props.onClick}
         >
             DELETE
         </button>
