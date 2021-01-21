@@ -50,6 +50,9 @@ class Library extends React.Component{
     handleSubmit(event){
         const newBooks = this.state.books;
         const index = newBooks.map((book) => {return book.title}).indexOf(this.state.title);
+        if(!this.state.author) return alert('Author is required');
+        if(!this.state.title) return alert('Title is required');
+        if(!this.state.pages) return alert('Number of pages is required');
         if(index === -1){
             this.setState({
                 books: newBooks.concat([{
@@ -97,6 +100,7 @@ class Library extends React.Component{
     searchBook(event){
         event.persist()
         let query = this.state.search;
+        if(!query) return alert('Please enter a search term')
         fetch("https://www.googleapis.com/books/v1/volumes?q="+query)
         .then((res)=>{
             return res.json()
