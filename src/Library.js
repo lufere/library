@@ -2,6 +2,7 @@ import React from 'react';
 import BookInput from './BookInput';
 import BookContainer from './BookContainer';
 import BookSearch from './BookSearch';
+import SearchResults from './SearchResults';
 
 import './css/reset.css';
 import './css/style.css';
@@ -66,7 +67,8 @@ class Library extends React.Component{
                 author:"",
                 pages:"",
                 cover:"",
-                read:""
+                read:"",
+                searchResults:"",
             }, () => {
                 // console.table(this.state.books);
                 localStorage.setItem('library', JSON.stringify(this.state.books));
@@ -112,12 +114,13 @@ class Library extends React.Component{
             // console.log(this.state.readSearch);
             if(index === -1){
                 this.setState({
+                    searchResults: result.items,
                     title: result.items[0].volumeInfo.title,
                     author: result.items[0].volumeInfo.authors[0],
                     pages: result.items[0].volumeInfo.pageCount,
                     cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
                     read: this.state.readSearch
-                });
+                },()=>console.log(this.state.searchResults));
                 this.handleSubmit(event);
             }else{
                 alert("That book is already on your library!");
@@ -170,6 +173,9 @@ class Library extends React.Component{
                         search = {this.state.search}
                     />
                 </div>
+                <SearchResults
+                    searchResults={this.state.searchResults}
+                />
             </div>
         );
     }

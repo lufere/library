@@ -27,7 +27,7 @@ class BookInput extends React.Component{
                     type="text" 
                     id="title" 
                     value={this.props.title}
-                    onChange={this.handleChange}
+                    onChange={(e)=>this.props.onInputChange(e)}
                     />
                 </label>
                 <label>
@@ -36,7 +36,7 @@ class BookInput extends React.Component{
                     type="text" 
                     id="author" 
                     value={this.props.author}
-                    onChange={this.handleChange}    
+                    onChange={(e)=>this.props.onInputChange(e)}    
                     />
                 </label>
                 <label>
@@ -45,7 +45,7 @@ class BookInput extends React.Component{
                     type="text" 
                     id="pages" 
                     value={this.props.pages}
-                    onChange={this.handleChange}
+                    onChange={(e)=>this.props.onInputChange(e)}
                     />
                 </label>
                 <label>
@@ -54,7 +54,7 @@ class BookInput extends React.Component{
                     type="text" 
                     id="cover" 
                     value={this.props.cover}
-                    onChange={this.handleChange}
+                    onChange={(e)=>this.props.onInputChange(e)}
                     />
                 </label>
                 <label>
