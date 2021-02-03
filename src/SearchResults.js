@@ -9,11 +9,13 @@ const SearchResults = (props) => {
             console.log('searchArray',props.searchResults);
             console.log('TITLE', result.volumeInfo.title);
             let oneBook = {};
-            oneBook.title = result.volumeInfo.title;
-            oneBook.author = result.volumeInfo.authors[0];
-            oneBook.pages = result.volumeInfo.pageCount;
-            oneBook.cover = result.volumeInfo.imageLinks.smallThumbnail;
-            oneBook.read = true;
+            if(result.volumeInfo.authors){
+                oneBook.title = result.volumeInfo.title;
+                oneBook.author = result.volumeInfo.authors[0];
+                oneBook.pages = result.volumeInfo.pageCount;
+                oneBook.cover = result.volumeInfo.imageLinks.smallThumbnail;
+                oneBook.read = true;
+            }
             // return <p key={result.volumeInfo.title}>{result.volumeInfo.title}</p>
             return  <Book
                         key={result.volumeInfo.title}
