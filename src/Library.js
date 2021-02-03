@@ -23,12 +23,14 @@ class Library extends React.Component{
                 {title:"A Storm of Swords", author:"George R. R. Martin", pages:992, read:true, cover: "https://images-na.ssl-images-amazon.com/images/I/91-KBK-9K2L.jpg"}
             ],
             readSearch: false,
+            showResults: false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.searchBook = this.searchBook.bind(this);
         this.readToggle = this.readToggle.bind(this);
+        this.hideResults = this.hideResults.bind(this);
     }
     
     componentDidMount(){
@@ -115,6 +117,7 @@ class Library extends React.Component{
             if(index === -1){
                 this.setState({
                     searchResults: result.items,
+                    showResults: true,
                     title: result.items[0].volumeInfo.title,
                     author: result.items[0].volumeInfo.authors[0],
                     pages: result.items[0].volumeInfo.pageCount,
@@ -143,6 +146,13 @@ class Library extends React.Component{
         }, ()=>{
             localStorage.setItem('library', JSON.stringify(this.state.books));
         });
+    }
+
+    hideResults(event){
+        event.preventDefault();
+        if(event.target === event.currentTarget) {
+           this.setState({showResults:false})
+        }
     }
 
     render(){
@@ -175,6 +185,8 @@ class Library extends React.Component{
                 </div>
                 <SearchResults
                     searchResults={this.state.searchResults}
+                    showResults={this.state.showResults}
+                    hideResults={this.hideResults}
                 />
             </div>
         );

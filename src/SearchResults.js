@@ -31,22 +31,29 @@ const SearchResults = (props) => {
         // })
 
     }
-    return(
-        <div>
-            {/* {searchArray} */}
-            {results}
-            SEARCH RESULTS
-            <button
-                onClick={()=>{
-                    setResults(props.searchResults.map(result => {
-            console.log('searchArray',props.searchResults);
-            console.log('TITLE', result.volumeInfo.title);
-            return <p key={result.volumeInfo.title}>{result.volumeInfo.title}</p>
-        }))
-                }}
-            >TEST</button>
-        </div>
-    )
+    if(props.showResults){
+        return(
+            <div className='searchContainer' onClick={props.hideResults}>
+                <div className='searchResults'>
+                    <button className='exit' onClick={props.hideResults}>X</button>
+                    {/* {searchArray} */}
+                    {/* SEARCH RESULTS */}
+                    {results}
+                    {/* <button
+                        onClick={()=>{
+                            setResults(props.searchResults.map(result => {
+                    console.log('searchArray',props.searchResults);
+                    console.log('TITLE', result.volumeInfo.title);
+                    return <p key={result.volumeInfo.title}>{result.volumeInfo.title}</p>
+                }))
+                        }}
+                    >TEST</button> */}
+                </div>
+            </div>
+        )
+    }else{
+        return null
+    }
 }
 
 export default SearchResults
