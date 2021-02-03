@@ -120,13 +120,8 @@ class Library extends React.Component{
                     this.setState({
                         searchResults: result.items,
                         showResults: true,
-                        title: result.items[0].volumeInfo.title,
-                        author: result.items[0].volumeInfo.authors[0],
-                        pages: result.items[0].volumeInfo.pageCount,
-                        cover: result.items[0].volumeInfo.imageLinks.smallThumbnail,
                         read: this.state.readSearch
                     },()=>console.log(this.state.searchResults));
-                    this.handleSubmit(event);
                 }else{
                     alert("That book is already on your library!");
                 }
