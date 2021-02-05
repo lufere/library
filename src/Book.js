@@ -21,6 +21,7 @@ const Book = (props) =>{
                     />
                     <button
                         className = 'addBtn'
+                        onClick = {(e)=>props.addSearchResult(e)}
                     >ADD</button>
                 </div>
                 </div>

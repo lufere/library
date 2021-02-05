@@ -31,6 +31,7 @@ class Library extends React.Component{
         this.searchBook = this.searchBook.bind(this);
         this.readToggle = this.readToggle.bind(this);
         this.hideResults = this.hideResults.bind(this);
+        this.addSearchResult = this.addSearchResult.bind(this);
     }
     
     componentDidMount(){
@@ -111,7 +112,7 @@ class Library extends React.Component{
         }).then((result)=>{
             // console.log(result.items[0].volumeInfo.title);
             if(result.items[0].volumeInfo.authors){
-                console.log('ITEMS',result.items)
+                // console.log('ITEMS',result.items)
                 const title = result.items[0].volumeInfo.title;
                 const newBooks = this.state.books;
                 const index = newBooks.map((book) => {return book.title}).indexOf(title);
@@ -152,6 +153,22 @@ class Library extends React.Component{
            this.setState({showResults:false})
         }
     }
+    
+    addSearchResult(event){
+        let parent = event.target.parentElement;
+        let title = parent.querySelector('.title').innerHTML;
+        let author = parent.querySelector('.author').innerHTML;
+        let pages = parent.querySelector('.pages').innerHTML;
+        let cover = parent.parentElement.style.backgroundImage.slice(4, -1);
+        console.log('style',parent.parentElement.style.backgroundImage.slice(4, -1));
+        this.setState({
+            title:title,
+            author:author,
+            pages:pages,
+            cover:cover,
+            showResults:false,
+        },()=>this.handleSubmit(event))
+    }
 
     render(){
         const values = {
@@ -185,6 +202,7 @@ class Library extends React.Component{
                     searchResults={this.state.searchResults}
                     showResults={this.state.showResults}
                     hideResults={this.hideResults}
+                    addSearchResult={this.addSearchResult}
                 />
             </div>
         );

@@ -6,8 +6,8 @@ const SearchResults = (props) => {
 
     useEffect(()=>{
         if(props.searchResults)setResults(props.searchResults.map(result => {
-            console.log('searchArray',props.searchResults);
-            console.log('TITLE', result.volumeInfo.title);
+            // console.log('searchArray',props.searchResults);
+            // console.log('TITLE', result.volumeInfo.title);
             let oneBook = {};
             if(result.volumeInfo.authors && result.volumeInfo.imageLinks){
                 oneBook.title = result.volumeInfo.title;
@@ -21,11 +21,12 @@ const SearchResults = (props) => {
                         key={result.volumeInfo.title}
                         book = {oneBook}
                         search = {true}
+                        addSearchResult = {props.addSearchResult}
                     />
             
         }))
     },[props.searchResults])
-    console.log(props.searchResults);
+    // console.log(props.searchResults);
     if(props.searchResults){
         // var searchArray = props.searchResults.map(result => {
         //     console.log('searchArray',props.searchResults)
@@ -39,8 +40,6 @@ const SearchResults = (props) => {
             <div className='searchContainer' onClick={props.hideResults}>
                 <div className='searchResults'>
                     <button className='exit' onClick={props.hideResults}>X</button>
-                    {/* {searchArray} */}
-                    {/* SEARCH RESULTS */}
                     {results}
                     {/* <button
                         onClick={()=>{
